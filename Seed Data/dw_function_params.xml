@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ROWSET>
+ <ROW>
+  <FUNCTION_UUID>84a48e02-2fc3-4a64-bf2c-760f2b7f2c4e</FUNCTION_UUID>
+  <SEQ>10</SEQ>
+  <NAME>offset_days</NAME>
+  <DESCRIPTION>The number of days by which to offset the system date returned</DESCRIPTION>
+ </ROW>
+ <ROW>
+  <FUNCTION_UUID>bcb98f93-00a4-4b47-aa2d-41fcdf2acb14</FUNCTION_UUID>
+  <SEQ>10</SEQ>
+  <NAME>test</NAME>
+  <DESCRIPTION>Test parameter deletion cascade</DESCRIPTION>
+ </ROW>
+ <ROW>
+  <FUNCTION_UUID>84a48e02-2fc3-4a64-bf2c-760f2b7f2c4e</FUNCTION_UUID>
+  <SEQ>20</SEQ>
+  <NAME>format_mask</NAME>
+  <DESCRIPTION>The format in which to return the current date and time</DESCRIPTION>
+ </ROW>
+</ROWSET>

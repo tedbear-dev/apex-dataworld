@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ROWSET>
+ <ROW>
+  <SCENE_UUID>30e4954c-d2e3-4e41-b6ec-cdc174b526e1</SCENE_UUID>
+  <ID>menu-item</ID>
+  <DEFINITION>animation-control=&quot;crossFadeDuration: .3&quot; 
+scale=&quot;0.5 .6 .3&quot; 
+text-geometry=&quot;font: #exoFont; bevelEnabled: true; bevelSize: 0.1; bevelThickness: 0.1; curveSegments: 1; size: 1; height: 0.5;&quot; 
+material=&quot;color:pink; metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome;&quot;</DEFINITION>
+ </ROW>
+ <ROW>
+  <SCENE_UUID>5d4bb71c-38b9-4509-9626-759c2a44454a</SCENE_UUID>
+  <ID>yellow</ID>
+  <DEFINITION>material=&quot;color: #efef90; shader: flat;&quot;</DEFINITION>
+ </ROW>
+ <ROW>
+  <SCENE_UUID>5d4bb71c-38b9-4509-9626-759c2a44454a</SCENE_UUID>
+  <ID>ball</ID>
+  <DEFINITION>geometry=&quot;primitive: sphere;&quot;</DEFINITION>
+ </ROW>
+ <ROW>
+  <SCENE_UUID>70294b5b-ab81-4868-abcb-19e202261f2e</SCENE_UUID>
+  <ID>voxel</ID>
+  <DEFINITION>geometry=&quot;primitive: box; height: 0.5; width: 0.5; depth: 0.5&quot;
+material=&quot;shader: standard&quot;
+random-color
+snap=&quot;offset: 0.25 0.25 0.25; snap: 0.5 0.5 0.5&quot;</DEFINITION>
+ </ROW>
+</ROWSET>

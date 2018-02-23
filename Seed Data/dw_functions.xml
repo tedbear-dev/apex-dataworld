@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ROWSET>
+ <ROW>
+  <UUID>6d3920a6-63b9-405c-bdad-ba868e6464e8</UUID>
+  <PACKAGE_NAME>com.oracle.demo</PACKAGE_NAME>
+  <FUNCTION_NAME>DoNothing</FUNCTION_NAME>
+  <PURPOSE>Do nothing to test the simplest possible case.</PURPOSE>
+  <PLSQL_CODE>null;</PLSQL_CODE>
+ </ROW>
+ <ROW>
+  <UUID>84a48e02-2fc3-4a64-bf2c-760f2b7f2c4e</UUID>
+  <PACKAGE_NAME>com.oracle.demo</PACKAGE_NAME>
+  <FUNCTION_NAME>CurrentTime</FUNCTION_NAME>
+  <PURPOSE>Get the current time from the server, in the format supplied, and offset by the specified number of days.</PURPOSE>
+  <PLSQL_CODE>declare 
+  l_server_time timestamp with time zone;
+begin
+  l_server_time := systimestamp + to_number(:offset_days);
+  apex_json.write(&apos;current_time&apos;,to_char(l_server_time,nvl(:format_mask,&apos;YYYYMMDD HH24:MI:SS&apos;)));
+end;</PLSQL_CODE>
+ </ROW>
+</ROWSET>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ROWSET>
+ <ROW>
+  <NAME>PROTOCOL</NAME>
+  <VALUE>http</VALUE>
+ </ROW>
+ <ROW>
+  <NAME>SERVER_NAME</NAME>
+  <VALUE>192.168.0.119</VALUE>
+ </ROW>
+ <ROW>
+  <NAME>PORT_NUMBER</NAME>
+  <VALUE>8080</VALUE>
+ </ROW>
+ <ROW>
+  <NAME>REST_URL</NAME>
+  <VALUE>/ords/dataworld/rest</VALUE>
+ </ROW>
+</ROWSET>

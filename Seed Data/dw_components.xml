@@ -1,0 +1,440 @@
+<?xml version="1.0"?>
+<ROWSET>
+ <ROW>
+  <ID>1</ID>
+  <NAME>Particle System</NAME>
+  <DESCRIPTION>Particle systems for A-Frame. By IdeaSpace; https://www.npmjs.com/package/aframe-particle-system-component</DESCRIPTION>
+  <EXTERNAL_URL>https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js</EXTERNAL_URL>
+ </ROW>
+ <ROW>
+  <ID>2</ID>
+  <NAME>Animation</NAME>
+  <DESCRIPTION>Animations in A-Frame using anime.js by Kevin Ngo; https://github.com/ngokevin/kframe/tree/master/components/animation/
+
+New URL - https://rawgit.com/ngokevin/aframe/animationbugless/dist/aframe-master.min.js
+Old URL - https://unpkg.com/aframe-animation-component@%5E3.2.x/dist/aframe-animation-component.min.js</DESCRIPTION>
+  <EXTERNAL_URL>https://unpkg.com/aframe-animation-component@%5E3.2.x/dist/aframe-animation-component.min.js</EXTERNAL_URL>
+ </ROW>
+ <ROW>
+  <ID>3</ID>
+  <NAME>Gradient Sky</NAME>
+  <DESCRIPTION>A gradient sky component for the A-Frame WebVR Framework by zcanter; https://www.npmjs.com/package/aframe-gradient-sky</DESCRIPTION>
+  <EXTERNAL_URL>https://unpkg.com/aframe-gradient-sky@1.0.4/dist/gradientsky.min.js</EXTERNAL_URL>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>snap</AFRAME_COMPONENT>
+  <ID>222</ID>
+  <NAME>Position Snapper</NAME>
+  <DESCRIPTION>Snap entity to the closest interval specified by `snap`.
+Offset entity by `offset`.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+  dependencies: [&apos;position&apos;],
+
+  schema: {
+    offset: {type: &apos;vec3&apos;},
+    snap: {type: &apos;vec3&apos;}
+  },
+
+  init: function () {
+    this.originalPos = this.el.getAttribute(&apos;position&apos;);
+  },
+
+  update: function () {
+    const data = this.data;
+
+    const pos = AFRAME.utils.clone(this.originalPos);
+    pos.x = Math.floor(pos.x / data.snap.x) * data.snap.x + data.offset.x;
+    pos.y = Math.floor(pos.y / data.snap.y) * data.snap.y + data.offset.y;
+    pos.z = Math.floor(pos.z / data.snap.z) * data.snap.z + data.offset.z;
+
+    this.el.setAttribute(&apos;position&apos;, pos);
+  }
+}</JAVASCRIPT_CODE>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>intersection-spawn</AFRAME_COMPONENT>
+  <ID>223</ID>
+  <NAME>Intersection Spawn</NAME>
+  <DESCRIPTION>Spawn entity at the intersection point on click, given the properties passed.
+
+`&lt;a-entity intersection-spawn=&quot;mixin: box; material.color: red&quot;&gt;` will spawn
+`&lt;a-entity mixin=&quot;box&quot; material=&quot;color: red&quot;&gt;` at intersection point.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+  schema: {
+    default: &apos;&apos;,
+    parse: AFRAME.utils.styleParser.parse
+  },
+
+  init: function () {
+    const data = this.data;
+    const el = this.el;
+
+    el.addEventListener(data.event, evt =&gt; {
+      // Create element.
+      const spawnEl = document.createElement(&apos;a-entity&apos;);
+
+      // Snap intersection point to grid and offset from center.
+      spawnEl.setAttribute(&apos;position&apos;, evt.detail.intersection.point);
+
+      // Set components and properties.
+      Object.keys(data).forEach(name =&gt; {
+        if (name === &apos;event&apos;) { return; }
+        AFRAME.utils.entity.setComponentProperty(spawnEl, name, data[name]);
+      });
+
+      // Append to scene.
+      el.sceneEl.appendChild(spawnEl);
+    });
+  }
+}</JAVASCRIPT_CODE>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>hello-world</AFRAME_COMPONENT>
+  <ID>21</ID>
+  <NAME>Hello, World!</NAME>
+  <DESCRIPTION>A simple component from the A-Frame documentation.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+  init: function () {
+    console.log(&apos;Hello, World!&apos;);
+  }
+}</JAVASCRIPT_CODE>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>log</AFRAME_COMPONENT>
+  <ID>41</ID>
+  <NAME>Log</NAME>
+  <DESCRIPTION>A logging component that responds to events and can be attached to elements multiple times.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+  schema: {
+    event: {type: &apos;string&apos;, default: &apos;&apos;},
+    message: {type: &apos;string&apos;, default: &apos;Hello, World!&apos;}
+  },
+  multiple: true,
+  init: function () {
+    var self = this;
+    this.eventHandlerFn = function () { console.log(self.data.message); };
+  },
+  update: function (oldData) {
+    var data = this.data;
+    var el = this.el;
+    // `event` updated. Remove the previous event listener if it exists.
+    if (oldData.event &amp;&amp; data.event !== oldData.event) {
+      el.removeEventListener(oldData.event, this.eventHandlerFn);
+    }
+    if (data.event) {
+      el.addEventListener(data.event, this.eventHandlerFn);
+    } else {
+      console.log(data.message);
+    }
+  },
+  /**
+   * Handle component removal.
+   */
+  remove: function () {
+    var data = this.data;
+    var el = this.el;
+    // Remove event listener.
+    if (data.event) {
+      el.removeEventListener(data.event, this.eventHandlerFn);
+    }
+  }
+}</JAVASCRIPT_CODE>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>box</AFRAME_COMPONENT>
+  <ID>42</ID>
+  <NAME>Box</NAME>
+  <DESCRIPTION>The simple box component from the Writing a Component A-Frame documentation.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+  schema: {
+    width: {type: &apos;number&apos;, default: 1},
+    height: {type: &apos;number&apos;, default: 1},
+    depth: {type: &apos;number&apos;, default: 1},
+    color: {type: &apos;color&apos;, default: &apos;#AAA&apos;}
+  },
+  init: function () {
+    var data = this.data;
+    var el = this.el;
+    this.geometry = new THREE.BoxBufferGeometry(data.width, data.height, data.depth);
+    this.material = new THREE.MeshStandardMaterial({color: data.color});
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    el.setObject3D(&apos;mesh&apos;, this.mesh);
+  },
+  /**
+   * Update the mesh in response to property updates.
+   */
+  update: function (oldData) {
+    var data = this.data;
+    var el = this.el;
+    // If `oldData` is empty, then this means we&apos;re in the initialization process.
+    // No need to update.
+    if (Object.keys(oldData).length === 0) { return; }
+    // Geometry-related properties changed. Update the geometry.
+    if (data.width !== oldData.width ||
+        data.height !== oldData.height ||
+        data.depth !== oldData.depth) {
+      el.getObject3D(&apos;mesh&apos;).geometry = new THREE.BoxBufferGeometry(data.width, data.height,
+                                                                    data.depth);
+    }
+    // Material-related properties changed. Update the material.
+    if (data.color !== oldData.color) {
+      el.getObject3D(&apos;mesh&apos;).material.color = data.color;
+    }
+  },
+   remove: function () {
+    this.el.removeObject3D(&apos;mesh&apos;);
+  }
+}</JAVASCRIPT_CODE>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>follow</AFRAME_COMPONENT>
+  <ID>43</ID>
+  <NAME>Follow</NAME>
+  <DESCRIPTION>A component that will make the entity it&apos;s attached to follow another entity. From the Writing a Component section of the A-Frame documentation.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+  schema: {
+    target: {type: &apos;selector&apos;},
+    speed: {type: &apos;number&apos;}
+  },
+  init: function () {
+    this.directionVec3 = new THREE.Vector3();
+  },
+  tick: function (time, timeDelta) {
+    var directionVec3 = this.directionVec3;
+    // Grab position vectors (THREE.Vector3) from the entities&apos; three.js objects.
+    var targetPosition = this.data.target.object3D.position;
+    var currentPosition = this.el.object3D.position;
+    // Subtract the vectors to get the direction the entity should head in.
+    directionVec3.copy(targetPosition).sub(currentPosition);
+    // Calculate the distance.
+    var distance = directionVec3.length();
+    // Don&apos;t go any closer if a close proximity has been reached.
+    if (distance &lt; 1) { return; }
+    // Scale the direction vector&apos;s magnitude down to match the speed.
+    var factor = this.data.speed / distance;
+    [&apos;x&apos;, &apos;y&apos;, &apos;z&apos;].forEach(function (axis) {
+      directionVec3[axis] *= factor * (timeDelta / 1000);
+    });
+    // Translate the entity in the direction towards the target.
+    this.el.setAttribute(&apos;position&apos;, {
+      x: currentPosition.x + directionVec3.x,
+      y: currentPosition.y + directionVec3.y,
+      z: currentPosition.z + directionVec3.z
+    });
+  }
+}</JAVASCRIPT_CODE>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>server-time</AFRAME_COMPONENT>
+  <ID>121</ID>
+  <NAME>Set Value to Server Time</NAME>
+  <DESCRIPTION>Calls a server-side function to get the current time, and sets the element&apos;s &quot;value&quot; attribute to that.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+    schema: {
+      format_mask: {default: &apos;YYYYMMDD HH24:MI&apos;},
+      offset_days: {default: 0},
+      sub_component: {default: null}
+    },
+    init: function () {
+      var data = this.data;
+      var el = this.el;  // Whatever this component is attached to
+     
+      // Make a call to the server, then set the text from the response
+      com.oracle.demo.CurrentTime(data.offset_days,data.format_mask).then(function(response){
+        console.log(response);
+        if(data.sub_component) el.setAttribute(data.sub_component,&apos;value&apos;,response.current_time);
+        else el.setAttribute(&apos;value&apos;,response.current_time);
+      });
+    }
+}</JAVASCRIPT_CODE>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>animation-control</AFRAME_COMPONENT>
+  <ID>241</ID>
+  <NAME>Animation Control</NAME>
+  <DESCRIPTION>Control which animation is played, based on clicks on elements.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+    schema: {default: &apos;&apos;},
+    init() {
+
+        const bot = document.querySelector(&apos;#bot&apos;); 
+        var jumpBut = document.querySelector(&apos;#jump&apos;);
+        var scene = document.querySelector(&apos;a-scene&apos;);
+        var prevData = &quot;clip: idle; crossFadeDuration: .3&quot;;
+        
+        this.el.addEventListener(&apos;click&apos;, () =&gt; {
+        
+            if (this.el != jumpBut){  
+                bot.setAttribute(&quot;animation-mixer&quot;,this.data); 
+                scene.removeEventListener(&apos;animation-loop&apos;, jumpTrans);
+                prevData = this.data;
+            }
+            else if (this.el == jumpBut) {
+                bot.setAttribute(&quot;animation-mixer&quot;,this.data); 
+                var jumpTrans = function () {
+                    scene.removeEventListener(&apos;animation-loop&apos;,jumpTrans); 
+                    bot.setAttribute(&quot;animation-mixer&quot;,prevData);
+                };  
+                setTimeout (function(){
+                    scene.addEventListener(&apos;animation-loop&apos;,jumpTrans);
+                },500);     
+            }
+        }); 
+    }
+}</JAVASCRIPT_CODE>
+ </ROW>
+ <ROW>
+  <ID>262</ID>
+  <NAME>Procedural Environment</NAME>
+  <DESCRIPTION>Procedurally generates a variety of entire environments for us with a single line of code. The environment component is a great and easy way to visually bootstrap a VR application, providing over a dozen environments with numerous parameters. By feiss; https://github.com/feiss/aframe-environment-component/</DESCRIPTION>
+  <EXTERNAL_URL>https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js</EXTERNAL_URL>
+ </ROW>
+ <ROW>
+  <ID>61</ID>
+  <NAME>Event Set Component</NAME>
+  <DESCRIPTION>An A-Frame component to register event listeners that set properties. By ngokevin; https://www.npmjs.com/package/aframe-event-set-component</DESCRIPTION>
+  <EXTERNAL_URL>https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js</EXTERNAL_URL>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>change-color-on-hover</AFRAME_COMPONENT>
+  <ID>81</ID>
+  <NAME>Change Color on Hover</NAME>
+  <DESCRIPTION>A demonstration of how to encapsulate interactions into a component. From the A-Frame documentation on Interactions &amp; Controllers.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+    schema: {
+      color: {default: &apos;red&apos;}
+    },
+    init: function () {
+      var data = this.data;
+      var el = this.el;  // &lt;a-box&gt;
+      var defaultColor = el.getAttribute(&apos;material&apos;).color;
+      el.addEventListener(&apos;mouseenter&apos;, function () {
+        el.setAttribute(&apos;color&apos;, data.color);
+      });
+      el.addEventListener(&apos;mouseleave&apos;, function () {
+        el.setAttribute(&apos;color&apos;, defaultColor);
+      });
+    }
+}</JAVASCRIPT_CODE>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>scale-on-mouseenter</AFRAME_COMPONENT>
+  <ID>141</ID>
+  <NAME>Scale on Mouse Enter</NAME>
+  <DESCRIPTION>Changes the scale of an element when the mouse enters in, for example; if it&apos;s gazed at by the cursor component.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+    schema: {
+      to: {default: &apos;2.5 2.5 2.5&apos;}
+    },
+    init: function () {
+      var data = this.data;
+      var oldScale = this.el.getAttribute(&apos;scale&apos;);  
+      this.el.addEventListener(&apos;mouseenter&apos;, function () {
+        this.setAttribute(&apos;scale&apos;, data.to);
+      });
+      this.el.addEventListener(&apos;mouseleave&apos;, function () {
+        this.setAttribute(&apos;scale&apos;, oldScale);
+      });
+    }
+}</JAVASCRIPT_CODE>
+ </ROW>
+ <ROW>
+  <ID>161</ID>
+  <NAME>Text Geometry</NAME>
+  <DESCRIPTION>A text geometry component for A-Frame. The text geometry component wraps THREE.TextGeometry.
+By ngokevin; https://github.com/ngokevin/kframe/tree/master/components/text-geometry/</DESCRIPTION>
+  <EXTERNAL_URL>https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js</EXTERNAL_URL>
+ </ROW>
+ <ROW>
+  <ID>181</ID>
+  <NAME>Templates</NAME>
+  <DESCRIPTION>A template component for A-Frame VR.
+
+Features:
+* Simple ES6-style templating
+* Defining context variables via data attributes or from components
+* Agnostic template engine support, choose from popular templating engines
+* Rendering templates before, at the beginning, at the end, or after entities
+* Loading templates defined within script tags
+* Loading external templates
+* Lazy-loading template engines</DESCRIPTION>
+  <EXTERNAL_URL>https://unpkg.com/aframe-template-component@^3.2.1/dist/aframe-template-component.min.js</EXTERNAL_URL>
+ </ROW>
+ <ROW>
+  <ID>201</ID>
+  <NAME>Layout</NAME>
+  <DESCRIPTION>Automatically positions child entities in 3D space, with several layouts to choose from. 
+By ngokevin; https://www.npmjs.com/package/aframe-layout-component</DESCRIPTION>
+  <EXTERNAL_URL>https://unpkg.com/aframe-layout-component@4.2/dist/aframe-layout-component.min.js</EXTERNAL_URL>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>set-image</AFRAME_COMPONENT>
+  <ID>202</ID>
+  <NAME>Set Image</NAME>
+  <DESCRIPTION>Fades between images, on a specified entity, when the specified event happens.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+  schema: {
+    on: {type: &apos;string&apos;},
+    target: {type: &apos;selector&apos;},
+    src: {type: &apos;string&apos;},
+    dur: {type: &apos;number&apos;, default: 300}
+  },
+  init: function () {
+    var data = this.data;
+    var el = this.el;
+    this.setupFadeAnimation();
+    el.addEventListener(data.on, function () {
+      // Fade out image.
+      data.target.emit(&apos;set-image-fade&apos;);
+      // Wait for fade to complete.
+      setTimeout(function () {
+        // Set image.
+        data.target.setAttribute(&apos;material&apos;, &apos;src&apos;, data.src);
+      }, data.dur);
+    });
+  },
+  setupFadeAnimation: function () {
+    // Adds an animation component that fades to black.
+    var data = this.data;
+    var targetEl = this.data.target;
+
+    // Only set up once.
+    if (targetEl.dataset.setImageFadeSetup) { return; }
+    targetEl.dataset.setImageFadeSetup = true;
+
+    // Create animation.
+    targetEl.setAttribute(&apos;animation__fade&apos;, {
+      property: &apos;material.color&apos;,
+      startEvents: &apos;set-image-fade&apos;,
+      dir: &apos;alternate&apos;,
+      dur: data.dur,
+      from: &apos;#FFF&apos;,
+      to: &apos;#000&apos;
+    });
+  }
+}</JAVASCRIPT_CODE>
+ </ROW>
+ <ROW>
+  <AFRAME_COMPONENT>random-color</AFRAME_COMPONENT>
+  <ID>221</ID>
+  <NAME>Random Color</NAME>
+  <DESCRIPTION>Set a random color on the entity that this component is attached to.</DESCRIPTION>
+  <JAVASCRIPT_CODE>{
+  dependencies: [&apos;material&apos;],
+  
+  init: function () {
+    // Set material component&apos;s color property to a random color.
+    this.el.setAttribute(&apos;material&apos;, &apos;color&apos;, this.getRandomColor());
+  },
+
+  getRandomColor: function() {
+    const letters = &apos;0123456789ABCDEF&apos;;
+    var color = &apos;#&apos;;
+    for (var i = 0; i &lt; 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+}</JAVASCRIPT_CODE>
+ </ROW>
+</ROWSET>
